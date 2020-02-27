@@ -17,5 +17,4 @@ public interface ELetterDAO {
 	
 	boolean deleteHRInfoBean(int id);
 	
-	boolean reg(HRInfoBean hrInfoBean);
 }

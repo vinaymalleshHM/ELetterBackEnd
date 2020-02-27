@@ -18,6 +18,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -43,14 +45,12 @@ public class RecieverInfoBean implements Serializable{
 	private String typeOfLetter;
 	
 	@Column(name="from_mail")
-	private String from;
+	private String fromMail;
 	
 	@ElementCollection
 	@CollectionTable(name="recievers")
 	@Column(name="to_mail")
-	private List<String> to;
-	
-
+	private List<String> toMail;
 	
 	
 	

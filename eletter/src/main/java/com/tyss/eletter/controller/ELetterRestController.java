@@ -3,6 +3,8 @@ package com.tyss.eletter.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.hibernate.query.criteria.internal.predicate.IsEmptyPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,7 +32,7 @@ public class ELetterRestController {
 	private ELetterService service;
 	
 	@PostMapping(path = "/register",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ELetterGenericResponse register(@RequestBody HRInfoBean hrInfoBean) {
+	public ELetterGenericResponse register(@Valid @RequestBody HRInfoBean hrInfoBean) {
 		ELetterGenericResponse response = new ELetterGenericResponse();
 		if (service.register(hrInfoBean)) {
 			response.setStatus(201);
@@ -88,6 +90,8 @@ public class ELetterRestController {
 	public ELetterHRResponse search(@RequestParam(name="name",required = true)String name) {
 		
 		List<HRInfoBean> hrInfoBeans = service.search(name);
+		for (HRInfoBean hrInfoBean : hrInfoBeans) {
+		} 
 		ELetterHRResponse response = new ELetterHRResponse();
 		
 		if (hrInfoBeans!= null && !hrInfoBeans.isEmpty()) {
