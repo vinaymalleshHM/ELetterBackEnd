@@ -17,6 +17,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,15 +37,23 @@ public class RecieverInfoBean implements Serializable{
 	@Column(name="r_id")
 	private int rId;
 	
+	@NotNull(message = "name can't blank")
+	@Pattern(regexp = "^[a-zA-Z ]*$",message = "name should contain character only")
+	@Size(min = 3, max = 20, message = "name should contain min 3 and max 20 characters" )
 	@Column(name="name")
 	private String name;
 	
+	@NotNull(message = "ty Id can't blank")
 	@Column(name="ty_id")
 	private String tyId;
 	
+	@NotNull(message = "Date can't blank")
 	@Column(name="date")
-	private String date;
+	private Date date;
 	
+	@NotNull(message = "typeOfLetter can't blank")
+	@Pattern(regexp = "^[a-zA-Z ]*$",message = "typeOfLetter should contain character only")
+	@Size(min = 3, max = 20, message = "typeOfLetter should contain min 3 and max 20 characters" )
 	@Column(name="type_of_letter")
 	private String typeOfLetter;
 	

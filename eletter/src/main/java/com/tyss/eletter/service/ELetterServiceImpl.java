@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.tyss.eletter.dao.ELetterDAO;
 import com.tyss.eletter.dto.HRInfoBean;
+import com.tyss.eletter.exceptions.PasswordInvalidException;
+import com.tyss.eletter.util.FieldValidation;
 
 @Service
 
@@ -15,35 +17,57 @@ public class ELetterServiceImpl implements ELetterService{
 	@Autowired
 	private ELetterDAO dao;
 	
+	
+	
 	@Override
 	public boolean register(HRInfoBean hrInfoBean) {
-		return dao.register(hrInfoBean);
+		 FieldValidation validationForPassword = new FieldValidation();
+		if (validationForPassword.passwordValidtion(hrInfoBean.getPassword())) {
+			return dao.register(hrInfoBean);
+		}
+		else {
+			return false;
+		}
+		
 	}
 
 	@Override
 	public HRInfoBean auth(String email, String password) {
-		return dao.auth(email, password);
+		FieldValidation validationForPassword = new FieldValidation();
+		if (validationForPassword.passwordValidtion(password)) {
+			return dao.auth(email, password);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
-	public boolean changePassword(int id, String password) {
-		return dao.changePassword(id, password);
+	public boolean changePassword(String email, String password) {
+		FieldValidation validationForPassword = new FieldValidation();
+		if (validationForPassword.passwordValidtion(password)) {
+			return dao.changePassword(email, password);
+		}
+		else {
+			return false;
+		}
+		
 	}
 
 	@Override
 	public List<HRInfoBean> search(String name) {
+		
 		return dao.search(name);
 	}
 
 	@Override
 	public List<HRInfoBean> gethrInfo(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean deleteHRInfoBean(int id) {
-		return dao.deleteHRInfoBean(id);
+	public boolean deleteHRInfoBean(String email) {
+		return dao.deleteHRInfoBean(email);
 	}
 
 }

@@ -45,14 +45,13 @@ public class ELetterDAOImpl implements ELetterDAO {
 			bean.setRecieverInfoBean(list);
 			manager.persist(bean);
 			}catch(Exception e) {
-				System.err.println("password "+hrInfoBean.getPassword());
 				hrInfoBean.setPassword(encoder.encode(hrInfoBean.getPassword()));
 				hrInfoBean.setActive(true);
 				manager.persist(hrInfoBean);
 			}
 			transaction.commit();
 			return true;
-
+ 
 
 	}
 
@@ -78,14 +77,19 @@ public class ELetterDAOImpl implements ELetterDAO {
 	}
 
 	@Override
-	public boolean changePassword(int id, String password) {
+	public boolean changePassword(String email, String password) {
 		EntityManager manager = factory.createEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
-		HRInfoBean hrInfoBean = manager.find(HRInfoBean.class, id);
+		String jpql ="from HRInfoBean hr where hr.email=:email";
+		TypedQuery<HRInfoBean> beanQuery = manager.createQuery(jpql,HRInfoBean.class);
+		beanQuery.setParameter("email", email);
+		HRInfoBean record = beanQuery.getSingleResult();
+		HRInfoBean hrInfoBean = manager.find(HRInfoBean.class, record.getHId());
 		transaction.begin();
 		try {
 			hrInfoBean.setPassword(encoder.encode(password));
 			manager.persist(hrInfoBean); 
+			transaction.commit();
 			return true;
 		} catch (Exception e) {
 			for (StackTraceElement element : e.getStackTrace()) {
@@ -106,17 +110,20 @@ public class ELetterDAOImpl implements ELetterDAO {
 
 	@Override
 	public List<HRInfoBean> gethrInfo(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean deleteHRInfoBean(int id) {
+	public boolean deleteHRInfoBean(String email) {
 		EntityManager manager = factory.createEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
+		String jpql ="from HRInfoBean hr where hr.email=:email";
+		TypedQuery<HRInfoBean> beanQuery = manager.createQuery(jpql,HRInfoBean.class);
+		beanQuery.setParameter("email", email);
+		HRInfoBean record = beanQuery.getSingleResult();
 		transaction.begin();
 		try {
-			HRInfoBean hrInfoBean = manager.find(HRInfoBean.class, id);
+			HRInfoBean hrInfoBean = manager.find(HRInfoBean.class, record.getHId());
 			hrInfoBean.setActive(false);
 			manager.persist(hrInfoBean);
 			transaction.commit();

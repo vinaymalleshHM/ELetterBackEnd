@@ -68,12 +68,12 @@ public class ELetterRestController {
 		
 	}
 	
-	@PutMapping(path = "/changepassword ",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ELetterGenericResponse changePassword(@RequestBody HRInfoBean hrInfoBean) {
+	@PutMapping(path = "/changepassword",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ELetterGenericResponse changePassword(@RequestParam(name = "email",required = true) String email,@RequestParam(name="password",required = true)String password) {
 		
 		ELetterGenericResponse response = new ELetterGenericResponse();
 		
-		if (service.changePassword(hrInfoBean.getHId(), hrInfoBean.getPassword())) {
+		if (service.changePassword(email, password)) {
 			response.setStatus(201);
 			response.setMessage("Succuss");
 			response.setDescription("password changed succusfully don't change it again");
@@ -109,11 +109,11 @@ public class ELetterRestController {
 	}
 	
 	@DeleteMapping(path = "/delete",produces = MediaType.APPLICATION_JSON_VALUE)
-	public ELetterGenericResponse deleteHRInfoBean(@RequestParam(name="id",required = true)int id) {
+	public ELetterGenericResponse deleteHRInfoBean(@RequestParam(name="email",required = true)String email) {
 		
 		ELetterGenericResponse response = new ELetterGenericResponse();
 		
-		if (service.deleteHRInfoBean(id)) {
+		if (service.deleteHRInfoBean(email)) {
 			response.setStatus(201);
 			response.setMessage("Succuss");
 			response.setDescription("deleted SccussFully");

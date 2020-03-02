@@ -9,12 +9,12 @@ public interface ELetterDAO {
 	boolean register(HRInfoBean hrInfoBean);
 	HRInfoBean auth(String email, String password);
 	
-	boolean changePassword(int id,String password);
+	boolean changePassword(String email,String password);
 	
 	List<HRInfoBean> search(String name);
 	List<HRInfoBean> gethrInfo(int id);
 	
 	
-	boolean deleteHRInfoBean(int id);
+	boolean deleteHRInfoBean(String email);
 	
 }
